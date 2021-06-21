@@ -1,4 +1,14 @@
-   #anything involving viewing/modifying the calibredb (read uses the calibredb command) will power down the calibre-server until it is finished. 
+# Calibre_configs
+credit/reference pages for commands
+
+
+
+<a href="https://manual.calibre-ebook.com/generated/en/calibredb.html" target="_blank">CalibreDB</a> 
+<a href="https://manual.calibre-ebook.com/generated/en/calibre-server.html" target="_blank">Calibre-Server</a>
+
+#anything involving viewing/modifying the calibredb (read uses the calibredb command) will power down the calibre-server until it is finished. 
+
+
 
 #used in GUI, stops Calibre-server and opens  CalibreGUI
  
@@ -105,4 +115,24 @@ book_user()
          source .bashrc
 }
 
+```
+
+
+#Calibre systemd module
+#drop into 
+/etc/systemd/system/calibre-server.service
+
+```
+[Unit]
+Description=calibre content server
+After=network.target
+
+[Service]
+Type=simple
+User=pi
+Group=pi
+ExecStart=/usr/bin/calibre-server "/path/to/Calibre_Libraries/Manga" "/path/to/Calibre_Libraries/Tech"  "/path/to/Calibre_Libraries/Comics" "/path/to/Calibre_Libraries/Books" --access-log /home/YOUR_USER/calibre-access --max-log-size 5 --ajax-timeout 270 --timeout 270 --enable-auth --port "####" --userdb /path/to/Calibre_Libraries/users.sqlite --enable-auth
+
+[Install]
+WantedBy=multi-user.target
 ```
