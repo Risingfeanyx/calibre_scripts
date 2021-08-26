@@ -136,3 +136,19 @@ ExecStart=/usr/bin/calibre-server "/path/to/Calibre_Libraries/Manga" "/path/to/C
 [Install]
 WantedBy=multi-user.target
 ```
+
+#manually build python unrardll
+```
+(
+sudo apt update
+sudo apt install -y build-essential python-pip wget
+mkdir unrarsrc
+cd unrarsrc
+wget https://rarlab.com/rar/unrarsrc-5.6.8.tar.gz
+tar -xvf unrarsrc-5.6.8.tar.gz
+make -C unrar lib
+sudo make -C unrar install-lib
+sudo pip install --global-option=build_ext --global-option="-I$(pwd)" unrardll
+)
+
+```
