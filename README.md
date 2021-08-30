@@ -152,3 +152,25 @@ sudo pip install --global-option=build_ext --global-option="-I$(pwd)" unrardll
 )
 
 ```
+
+A script to add multiple books via the CLI, asks for author/series.
+Used for Manga library at the moment, will implement a 'list' of existing 
+Have yet to add in covers/comments
+```
+book_meta_add()
+{
+  clear
+  GREEN='\033[0;32m'
+  NC='\033[0m' # No Color
+  echo -e "${GREEN}Run this in the folder containing the books you want to add. \n If you're not in it, press CTRL-C to exit. You're currently in \n $(pwd)${NC}"
+  read -rp "What library is this going into?  Manga Tech Books Comics" library
+  read -rp "What is the author?" author
+  read -rp "What is the series this book belongs to?" series
+  sudo systemctl stop calibre-server
+  calibredb add *.{epub,azw3,azw4,book,cbc,cbr,cbz,chm,djv,djvu,doc,docx,fb2,htm,html,htmlz,iba,lit,lrf,lrs,lrx,markdown,ncx,opf,oxps,pdb,pdf,pdr,pml,pobi,prc,rar,rtf,snb,tcr,txt,xhtml,xps,zip} -a "$author" -s "$series" --library-path /disks/c/Calibre_Libraries/$library
+  sudo systemctl start calibre-server
+  echo "Don't forget to add covers/comments in the GUI when needed"
+}
+```
+
+
