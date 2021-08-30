@@ -21,7 +21,7 @@ NOTE: anything involving viewing/modifying the calibredb (read uses the calibred
 
 
 
-<h2>BASHRC/Portable Functions</h2>
+<h2>bashrc/Portable Functions</h2>
 
 ```
 book_backup()
