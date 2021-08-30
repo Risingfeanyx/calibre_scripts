@@ -1,5 +1,4 @@
-Personal Calibre_configs
-
+<h1>Personal Calibre_configs</h1>
 
 <a href="#bashrcportable-functions" 
 target="_blank">Bash/Portable Functions</a>
@@ -18,7 +17,7 @@ target="_blank">SystemD Module</a>
 <a href="https://manual.calibre-ebook.com/generated/en/calibredb.html" target="_blank">CalibreDB</a> 
 <a href="https://manual.calibre-ebook.com/generated/en/calibre-server.html" target="_blank">Calibre-Server</a>
 
-#anything involving viewing/modifying the calibredb (read uses the calibredb command) will power down the calibre-server until it is finished. 
+NOTE: anything involving viewing/modifying the calibredb (read uses the calibredb command) will power down the calibre-server until it is finished. 
 
 
 
