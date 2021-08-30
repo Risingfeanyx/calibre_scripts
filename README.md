@@ -1,6 +1,18 @@
-# Calibre_configs
-credit/reference pages for commands
+Personal Calibre_configs
 
+
+<a href="#bashrcportable-functions" 
+target="_blank">Bash/Portable Functions</a>
+
+<a href="#gui" 
+target="_blank">GUI</a>
+
+
+<a href="#setup-scripts" 
+target="_blank">Setup Scripts</a>
+
+<a href="#setup-scripts" 
+target="_blank">SystemD Module</a>
 
 
 <a href="https://manual.calibre-ebook.com/generated/en/calibredb.html" target="_blank">CalibreDB</a> 
@@ -16,6 +28,26 @@ credit/reference pages for commands
 book_backup()
 {
 screen -S calibre.backup tar -caf /disks/c/Calibre_Libraries/calibre_backup.tar.gz /disks/c/Calibre_Libraries/*
+}
+```
+
+```
+book_list_manga()
+{
+        clear
+        sudo systemctl stop calibre-server
+        calibredb list -f series --with-library /disks/c/Calibre_Libraries/Manga | awk '{print $2,$3,$4,$5,$6}'  | sort | uniq
+        sudo systemctl start calibre-server
+}
+```
+
+```
+book_list_tech()
+{
+        clear
+        sudo systemctl stop calibre-server
+        calibredb list -f title --with-library /disks/c/Calibre_Libraries/Tech | awk '{print $2,$3,$4,$5,$6}'  | sort | uniq
+        sudo systemctl start calibre-server
 }
 ```
 
@@ -41,9 +73,8 @@ book_meta_add()
 ```
 
 
-#self-explanatory
-  
-#Keep in mind, the book ID field is required, but will be helpful for our next funciton
+
+<a href="https://manual.calibre-ebook.com/generated/en/calibre-server.html#cmdoption-calibre-server-manage-users" target="_blank">Searches Books</a> 
 
 ```
 book_search()
@@ -64,7 +95,7 @@ sudo systemctl start calibre-server
 
 
 
-#creates a temporary directory, exports files based on book ID and creates a downloadable link using http://0x0.st/ (please adhere to the rules involving Copyrite)
+#creates a temporary directory, exports files based on book ID and creates a downloadable link using http://0x0.st/ (please adhere to the rules involving CopyRight)
   
 #due to filesize limitations, please exclude large files
 
@@ -95,6 +126,9 @@ rm -rf  ~/calibre_exports
 
 
 ```
+
+<a href="https://manual.calibre-ebook.com/generated/en/calibredb.html#adding-from-folders" target="_blank">Docs</a> 
+
 book_update()
 {
         sudo systemctl stop calibre-server
@@ -115,7 +149,10 @@ book_update()
  }
 ```
 
-#stops calibre server, manages current users
+Manages current <a href="https://manual.calibre-ebook.com/generated/en/calibre-server.html#cmdoption-calibre-server-manage-users" target="_blank">users</a> 
+
+
+
 
 ```
 book_user()
@@ -134,7 +171,7 @@ book_user()
 
 <h2>GUI</h2>
 
-#used in GUI, stops Calibre-server and opens  CalibreGUI
+used in GUI terminal, stops Calibre-server and opens  CalibreGUI
  
   
 ```
@@ -172,12 +209,14 @@ sudo pip install --global-option=build_ext --global-option="-I$(pwd)" unrardll
 
 <h2>SystemD Module</h2>
 
-
-
-
-#Calibre systemd module
-#drop into 
 /etc/systemd/system/calibre-server.service
+
+I use this to tell Calibre where my different libraries are. While this isn't required, it helps keeps different types of libraries sorted/organized. 
+
+
+See the official docs for more info
+
+<a href="https://manual.calibre-ebook.com/server.html#creating-a-service-for-the-calibre-server-on-a-modern-linux-system" target="_blank">docs</a> 
 
 ```
 [Unit]
