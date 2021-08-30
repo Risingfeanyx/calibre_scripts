@@ -94,6 +94,29 @@ sudo systemctl start calibre-server
 ```
 
 
+<a href="https://manual.calibre-ebook.com/generated/en/calibredb.html#adding-from-folders" target="_blank">Docs</a> 
+
+```
+book_update()
+{
+        sudo systemctl stop calibre-server
+        #calibredb check_library --with-library /disks/c/Calibre_Libraries/*
+        echo -e "Calibre will turn off while it copies data from the following folders.
+        \n/disks/c/Calibre_Libraries/update_books => /disks/c/Calibre_Libraries/Books
+        \n/disks/c/Calibre_Libraries/update_comics =>  /disks/c/Calibre_Libraries/Comics
+        \n/disks/c/Calibre_Libraries/update_manga =>  /disks/c/Calibre_Libraries/Manga
+        \n/disks/c/Calibre_Libraries/update_tech =>  /disks/c/Calibre_Libraries/Tech"
+        calibredb embed_metadata all
+        sudo systemctl stop calibre-server
+        sudo xvfb-run calibredb add /disks/c/Calibre_Libraries/update_books --library-path /disks/c/Calibre_Libraries/Books
+        sudo xvfb-run calibredb add /disks/c/Calibre_Libraries/update_comics --library-path /disks/c/Calibre_Libraries/Comics
+        sudo xvfb-run calibredb add /disks/c/Calibre_Libraries/update_manga --library-path /disks/c/Calibre_Libraries/Manga
+        sudo xvfb-run calibredb add /disks/c/Calibre_Libraries/update_tech --library-path /disks/c/Calibre_Libraries/Tech
+        sudo systemctl start calibre-server
+        source ~/.bashrc
+ }
+```
+
 
 #creates a temporary directory, exports files based on book ID and creates a downloadable link using http://0x0.st/ (please adhere to the rules involving CopyRight)
   
@@ -123,36 +146,7 @@ rm -rf  ~/calibre_exports
 }
 ```
 
-
-
-```
-
-<a href="https://manual.calibre-ebook.com/generated/en/calibredb.html#adding-from-folders" target="_blank">Docs</a> 
-
-book_update()
-{
-        sudo systemctl stop calibre-server
-        #calibredb check_library --with-library /disks/c/Calibre_Libraries/*
-        echo -e "Calibre will turn off while it copies data from the following folders.
-        \n/disks/c/Calibre_Libraries/update_books => /disks/c/Calibre_Libraries/Books
-        \n/disks/c/Calibre_Libraries/update_comics =>  /disks/c/Calibre_Libraries/Comics
-        \n/disks/c/Calibre_Libraries/update_manga =>  /disks/c/Calibre_Libraries/Manga
-        \n/disks/c/Calibre_Libraries/update_tech =>  /disks/c/Calibre_Libraries/Tech"
-        calibredb embed_metadata all
-        sudo systemctl stop calibre-server
-        sudo xvfb-run calibredb add /disks/c/Calibre_Libraries/update_books --library-path /disks/c/Calibre_Libraries/Books
-        sudo xvfb-run calibredb add /disks/c/Calibre_Libraries/update_comics --library-path /disks/c/Calibre_Libraries/Comics
-        sudo xvfb-run calibredb add /disks/c/Calibre_Libraries/update_manga --library-path /disks/c/Calibre_Libraries/Manga
-        sudo xvfb-run calibredb add /disks/c/Calibre_Libraries/update_tech --library-path /disks/c/Calibre_Libraries/Tech
-        sudo systemctl start calibre-server
-        source ~/.bashrc
- }
-```
-
 Manages current <a href="https://manual.calibre-ebook.com/generated/en/calibre-server.html#cmdoption-calibre-server-manage-users" target="_blank">users</a> 
-
-
-
 
 ```
 book_user()
