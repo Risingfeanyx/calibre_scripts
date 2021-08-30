@@ -10,23 +10,33 @@ credit/reference pages for commands
 
 
 
-#used in GUI, stops Calibre-server and opens  CalibreGUI
- 
-  
-```
-book_add()
-        {
-        sudo systemctl stop calibre-server
-        /usr/bin/calibre
-        sudo systemctl start calibre-server
-        exit
-        }
-```
+<h2>BASHRC/Portable Functions</h2>
 
 ```
 book_backup()
 {
 screen -S calibre.backup tar -caf /disks/c/Calibre_Libraries/calibre_backup.tar.gz /disks/c/Calibre_Libraries/*
+}
+```
+
+
+A script to add multiple books via the CLI, asks for author/series.
+Used for Manga library at the moment, will implement a 'list' of existing  libraries.
+Have yet to add in covers/comments
+```
+book_meta_add()
+{
+  clear
+  GREEN='\033[0;32m'
+  NC='\033[0m' # No Color
+  echo -e "${GREEN}Run this in the folder containing the books you want to add. \n If you're not in it, press CTRL-C to exit. You're currently in \n $(pwd)${NC}"
+  read -rp "What library is this going into?  Manga Tech Books Comics" library
+  read -rp "What is the author?" author
+  read -rp "What is the series this book belongs to?" series
+  sudo systemctl stop calibre-server
+  calibredb add *.{epub,azw3,azw4,book,cbc,cbr,cbz,chm,djv,djvu,doc,docx,fb2,htm,html,htmlz,iba,lit,lrf,lrs,lrx,markdown,ncx,opf,oxps,pdb,pdf,pdr,pml,pobi,prc,rar,rtf,snb,tcr,txt,xhtml,xps,zip} -a "$author" -s "$series" --library-path /disks/c/Calibre_Libraries/$library
+  sudo systemctl start calibre-server
+  echo "Don't forget to add covers/comments in the GUI when needed"
 }
 ```
 
@@ -52,7 +62,9 @@ sudo systemctl start calibre-server
 }
 ```
 
-#creates a temporary directory, exports files based on book ID and creates a downloadable link using 0x0
+
+
+#creates a temporary directory, exports files based on book ID and creates a downloadable link using http://0x0.st/ (please adhere to the rules involving Copyrite)
   
 #due to filesize limitations, please exclude large files
 
@@ -80,6 +92,8 @@ rm -rf  ~/calibre_exports
 }
 ```
 
+
+
 ```
 book_update()
 {
@@ -101,7 +115,6 @@ book_update()
  }
 ```
 
- 
 #stops calibre server, manages current users
 
 ```
@@ -116,6 +129,50 @@ book_user()
 }
 
 ```
+
+
+
+<h2>GUI</h2>
+
+#used in GUI, stops Calibre-server and opens  CalibreGUI
+ 
+  
+```
+book_add()
+        {
+        sudo systemctl stop calibre-server
+        /usr/bin/calibre
+        sudo systemctl start calibre-server
+        exit
+        }
+```
+
+
+
+
+
+
+<h2>Setup Script(s)</h2>
+
+#manually build python unrardll
+```
+(
+sudo apt update
+sudo apt install -y build-essential python-pip wget
+mkdir unrarsrc
+cd unrarsrc
+wget https://rarlab.com/rar/unrarsrc-5.6.8.tar.gz
+tar -xvf unrarsrc-5.6.8.tar.gz
+make -C unrar lib
+sudo make -C unrar install-lib
+sudo pip install --global-option=build_ext --global-option="-I$(pwd)" unrardll
+)
+
+```
+
+<h2>SystemD Module</h2>
+
+
 
 
 #Calibre systemd module
@@ -136,41 +193,3 @@ ExecStart=/usr/bin/calibre-server "/path/to/Calibre_Libraries/Manga" "/path/to/C
 [Install]
 WantedBy=multi-user.target
 ```
-
-#manually build python unrardll
-```
-(
-sudo apt update
-sudo apt install -y build-essential python-pip wget
-mkdir unrarsrc
-cd unrarsrc
-wget https://rarlab.com/rar/unrarsrc-5.6.8.tar.gz
-tar -xvf unrarsrc-5.6.8.tar.gz
-make -C unrar lib
-sudo make -C unrar install-lib
-sudo pip install --global-option=build_ext --global-option="-I$(pwd)" unrardll
-)
-
-```
-
-A script to add multiple books via the CLI, asks for author/series.
-Used for Manga library at the moment, will implement a 'list' of existing 
-Have yet to add in covers/comments
-```
-book_meta_add()
-{
-  clear
-  GREEN='\033[0;32m'
-  NC='\033[0m' # No Color
-  echo -e "${GREEN}Run this in the folder containing the books you want to add. \n If you're not in it, press CTRL-C to exit. You're currently in \n $(pwd)${NC}"
-  read -rp "What library is this going into?  Manga Tech Books Comics" library
-  read -rp "What is the author?" author
-  read -rp "What is the series this book belongs to?" series
-  sudo systemctl stop calibre-server
-  calibredb add *.{epub,azw3,azw4,book,cbc,cbr,cbz,chm,djv,djvu,doc,docx,fb2,htm,html,htmlz,iba,lit,lrf,lrs,lrx,markdown,ncx,opf,oxps,pdb,pdf,pdr,pml,pobi,prc,rar,rtf,snb,tcr,txt,xhtml,xps,zip} -a "$author" -s "$series" --library-path /disks/c/Calibre_Libraries/$library
-  sudo systemctl start calibre-server
-  echo "Don't forget to add covers/comments in the GUI when needed"
-}
-```
-
-
