@@ -13,10 +13,14 @@ target="_blank">Setup Scripts</a>
 <a href="#setup-scripts" 
 target="_blank">SystemD Module</a>
 
-
+Current documentation for 5.2.6 or $currentversion
 <a href="https://manual.calibre-ebook.com/generated/en/calibredb.html" target="_blank">CalibreDB</a> 
 <a href="https://manual.calibre-ebook.com/generated/en/calibre-server.html" target="_blank">Calibre-Server</a>
 
+
+
+
+NOTE: the version of calibre-server I'm using is <a href="https://manual.calibre-ebook.com/3.39.1/" target="_blank">3.39.1</a> , which is the repo default in Raspbian/Debian.
 NOTE: anything involving viewing/modifying the calibredb (read uses the calibredb command) will power down the calibre-server until it is finished. 
 
 
